@@ -22,7 +22,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
         return (exchange, chain) -> {
             String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-            if(token == null || !token.startsWith("Bearer")) {
+            if(token == null || !token.startsWith("Bearer ")) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
@@ -32,7 +32,12 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                     .header(HttpHeaders.AUTHORIZATION, token)
                     .retrieve()
                     .toBodilessEntity()
-                    .then(chain.filter(exchange));
+                    .then(chain.filter(exchange))
+                    .onErrorResume(e -> {
+                        System.out.println("Token validation failed!");
+                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                        return exchange.getResponse().setComplete();
+                    });
         };
     }
 }

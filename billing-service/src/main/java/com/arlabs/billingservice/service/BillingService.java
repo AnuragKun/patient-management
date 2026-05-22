@@ -1,5 +1,8 @@
 package com.arlabs.billingservice.service;
 
+import com.arlabs.billingservice.dto.TransactionResponse;
+import com.arlabs.billingservice.kafka.BillingProducer;
+import com.arlabs.billingservice.mapper.BillingMapper;
 import com.arlabs.billingservice.model.BillingAccount;
 import com.arlabs.billingservice.model.BillingTransaction;
 import com.arlabs.billingservice.repository.BillingAccountRepository;
@@ -17,6 +20,8 @@ public class BillingService {
 
     private final BillingAccountRepository billingAccountRepository;
     private final BillingTransactionRepository billingTransactionRepository;
+    private final BillingProducer billingProducer;
+    private final BillingMapper  billingMapper;
 
     public BillingAccount getAccountByPatientId(UUID patientId) {
         return billingAccountRepository.findByPatientId(patientId);
@@ -39,7 +44,13 @@ public class BillingService {
                 .type(BillingTransaction.TransactionType.CHARGE)
                 .build();
 
-        return billingTransactionRepository.save(charge);
+        BillingTransaction savedCharge = billingTransactionRepository.save(charge);
+
+        TransactionResponse responseDto = billingMapper.mapToTransactionResponse(savedCharge);
+
+        billingProducer.sendTransactionEvent(responseDto);
+
+        return savedCharge;
     }
 
 
@@ -60,7 +71,13 @@ public class BillingService {
                 .type(BillingTransaction.TransactionType.PAYMENT)
                 .build();
 
-        return billingTransactionRepository.save(payment);
+        BillingTransaction savedPayment = billingTransactionRepository.save(payment);
+
+        TransactionResponse responseDto = billingMapper.mapToTransactionResponse(savedPayment);
+
+        billingProducer.sendTransactionEvent(responseDto);
+
+        return savedPayment;
     }
 
 

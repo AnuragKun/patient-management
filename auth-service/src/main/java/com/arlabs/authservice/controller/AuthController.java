@@ -2,6 +2,7 @@ package com.arlabs.authservice.controller;
 
 import com.arlabs.authservice.dto.LoginRequestDTO;
 import com.arlabs.authservice.dto.LoginResponseDTO;
+import com.arlabs.authservice.dto.RegisterRequestDto;
 import com.arlabs.authservice.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,18 @@ public class AuthController {
         return  authService.validateToken(authHeader.substring(7))
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+
+    @Operation(summary = "Register a new user")
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequestDto registerRequestDTO) {
+        try {
+            String message = authService.register(registerRequestDTO);
+            return ResponseEntity.ok(message);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

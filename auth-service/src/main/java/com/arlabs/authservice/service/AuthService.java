@@ -1,6 +1,7 @@
 package com.arlabs.authservice.service;
 
 import com.arlabs.authservice.dto.LoginRequestDTO;
+import com.arlabs.authservice.dto.RegisterRequestDto;
 import com.arlabs.authservice.model.User;
 import com.arlabs.authservice.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
@@ -34,4 +35,21 @@ public class AuthService {
             return false;
         }
     }
+
+    public String register(RegisterRequestDto registerRequestDto) {
+
+        if(userService.findByEmail(registerRequestDto.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        User newUser = new User();
+        newUser.setEmail(registerRequestDto.getEmail());
+        newUser.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
+        newUser.setRole(registerRequestDto.getRole());
+
+        userService.saveUser(newUser);
+
+        return "User registered successfully";
+    }
+
 }
