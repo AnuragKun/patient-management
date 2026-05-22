@@ -1,0 +1,252 @@
+{
+  "info": {
+    "_postman_id": "8fd69aef-3421-41f2-a697-cd779f07cd15",
+    "name": "patient management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47428923",
+    "_collection_link": "https://go.postman.co/collection/47428923-8fd69aef-3421-41f2-a697-cd779f07cd15?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "patient-service",
+      "item": [
+        {
+          "name": "get patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4000/patients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "patients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create patient",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Anurag Rana\",\r\n    \"email\": \"anurag@gmail.com\",\r\n    \"address\": \"123 test street,India\",\r\n    \"dateOfBirth\": \"2005-03-05\",\r\n    \"registeredDate\": \"2026-05-08\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/patients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "patients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update Patient",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Anurag Rana\",\r\n    \"email\": \"anurag@gmail.com\",\r\n    \"address\": \"123 test street,India\",\r\n    \"dateOfBirth\": \"2005-03-05\",\r\n    \"registeredDate\": \"2026-05-08\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/patients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "patients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete patient",
+          "request": {
+            "method": "DELETE",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "auth-service",
+      "item": [
+        {
+          "name": "login request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4005/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4005",
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "validate token",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "register new user",
+          "request": {
+            "method": "POST",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "billing-service",
+      "item": [
+        {
+          "name": "get account",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4004/api/billing/123e4567-e89b-12d3-a456-426614174000",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4004",
+              "path": [
+                "api",
+                "billing",
+                "123e4567-e89b-12d3-a456-426614174000"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add charge(fees)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 50.00,\r\n    \"description\": \"Blood Test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4004/api/billing/123e4567-e89b-12d3-a456-426614174000/charge",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4004",
+              "path": [
+                "api",
+                "billing",
+                "123e4567-e89b-12d3-a456-426614174000",
+                "charge"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "make payment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 50.00,\r\n    \"description\": \"Blood Test\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4004/api/billing/123e4567-e89b-12d3-a456-426614174000/payment",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4004",
+              "path": [
+                "api",
+                "billing",
+                "123e4567-e89b-12d3-a456-426614174000",
+                "payment"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
